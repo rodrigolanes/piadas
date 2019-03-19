@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
+    "target": "es6",
+    "module": "commonjs",
+    "allowJs": true,
+    "outDir": "dist",
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*/"]
+}
