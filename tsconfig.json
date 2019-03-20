@@ -6,6 +6,7 @@
     "module": "commonjs",
     "allowJs": true,
     "outDir": "dist",
+    "strictNullChecks": true,
     "moduleResolution": "node"
   },
   "include": ["src/**/*/"]

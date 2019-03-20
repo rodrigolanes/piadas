@@ -1,6 +1,6 @@
-import * as mongodb from "mongodb";
 import * as config from "config";
 import * as dotenv from "dotenv";
+import * as mongoose from "mongoose";
 
 dotenv.config();
 
@@ -13,21 +13,8 @@ const auth = username ? `${username}:${password}@` : "";
 
 const uri = `mongodb://${auth}${host}:${port}/${database}`;
 
-function MongoDbConnect(callback) {
-  mongodb.MongoClient.connect(uri, { useNewUrlParser: true }, function(
-    err,
-    client
-  ) {
-    if (err) return callback(err);
-
-    const db = client.db(database);
-
-    console.log(db);
-
-    callback(null, db);
-
-    client.close();
-  });
+function connectDB() {
+  mongoose.connect(uri, { useNewUrlParser: true });
 }
 
-exports.MongoDbConnect = MongoDbConnect;
+exports.connectDB = connectDB;
