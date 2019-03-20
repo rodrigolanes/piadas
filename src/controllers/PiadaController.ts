@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 import * as config from "config";
 
-const Piada = require("../model/Piada");
+const Piada = require("../models/PiadaModel");
 
 const page_limit = config.get("Pagination.page_limit");
 

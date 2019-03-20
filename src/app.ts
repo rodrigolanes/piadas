@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as dotenv from "dotenv";
 var morgan = require("morgan");
-var piadas = require("./controller/piadaController");
+var piadas = require("./controllers/PiadaController");
 var db = require("./db/db");
 
 dotenv.config();
