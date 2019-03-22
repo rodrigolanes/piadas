@@ -7,13 +7,13 @@ const Piada = require("../models/PiadaModel");
 const page_limit = config.get("Pagination.page_limit");
 
 router.get("/", function(req, res, next) {
-  const page = +req.query.page || 0;
+  const page = +req.query.page || 1;
   const limit = +req.query.limit || page_limit;
 
   const query = {};
 
   Piada.find(query)
-    .skip(limit * page)
+    .skip(limit * (page - 1))
     .limit(limit)
     .exec(function(err, result) {
       Piada.countDocuments(query).exec((err, count) => {
@@ -21,7 +21,7 @@ router.get("/", function(req, res, next) {
 
         res.json({
           items: result,
-          current_page: page + 1,
+          current_page: page,
           page_size: result.length,
           pages: Math.ceil(count / limit),
           total: count
