@@ -1,10 +1,6 @@
 import app from "./app";
 
-let server_port = process.env.PORT;
-
-if (server_port == null || server_port == "") {
-  server_port = "3000";
-}
+const server_port = process.env.PORT || 3000;
 
 const server = app.listen(server_port, () => {
   console.log(
