@@ -4,17 +4,26 @@
   "description": "Um local para se guardar as melhores piadas do Brasil",
   "main": "index.js",
   "dependencies": {
-    "config": "^3.0.1",
-    "dotenv": "^7.0.0",
+    "bcrypt-nodejs": "0.0.3",
+    "cors": "^2.8.5",
+    "dotenv-safe": "^6.1.0",
     "express": "^4.16.4",
-    "mongodb": "^3.1.13",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.19",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
+    "passport-github": "^1.1.0",
+    "passport-google-oauth": "^2.0.0",
+    "passport-jwt": "^4.0.0",
+    "passport-twitter": "^1.0.4"
   },
   "devDependencies": {
     "@types/express": "^4.16.1",
     "@types/mongodb": "^3.1.22",
     "@types/mongoose": "^5.3.23",
+    "@types/node": "^11.11.6",
     "nodemon": "^1.18.10",
     "typescript": "^3.3.4000"
   },

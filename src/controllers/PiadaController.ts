@@ -1,14 +1,13 @@
+require('dotenv-safe').load();
 var express = require("express");
 var router = express.Router();
-import * as config from "config";
 
 const Piada = require("../models/PiadaModel");
 
-const page_limit = config.get("Pagination.page_limit");
-
 router.get("/", function(req, res, next) {
+
   const page = +req.query.page || 1;
-  const limit = +req.query.limit || page_limit;
+  const limit: number = +req.query.limit || +(process.env.PAGE_LIMIT || 20);
 
   const query = {};
 
@@ -16,6 +15,7 @@ router.get("/", function(req, res, next) {
     .skip(limit * (page - 1))
     .limit(limit)
     .exec(function(err, result) {
+      if (err) next(err);
       Piada.countDocuments(query).exec((err, count) => {
         if (err) next(err);
 
@@ -33,15 +33,47 @@ router.get("/", function(req, res, next) {
 router.get("/:id", function(req, res, next) {
   const id = req.params.id;
 
-  Piada.findById(id, function(err, piada) {
+  Piada.findById(id, function(err, result) {
     if (err) next(err);
 
-    res.json(piada);
+    res.json(result);
   });
 });
 
-router.get("/about", function(req, res) {
-  res.send("About jokes");
+router.post("/", function(req, res, next) {
+
+  const nova_piada = new Piada(req.body);
+
+  nova_piada.save(function(err, result) {
+    if(err) next(err);
+
+    res.json(result);
+  });
+  
+});
+
+router.put("/:id", function(req, res, next) {
+
+  const _id = req.params.id;
+
+  const {pergunta, resposta} = new Piada(req.body);
+
+  Piada.findOneAndUpdate({_id}, {pergunta, resposta}, { new: true }, function(err, result) {
+    if(err) next(err);
+
+    res.json(result);
+  });
+  
+});
+
+router.delete("/:id", function(req, res, next) {
+  const _id = req.params.id;
+
+  Piada.deleteOne({ _id }, function(err, result) {
+    if(err) next(err);
+
+    res.json(result);
+  })
 });
 
 module.exports = router;
