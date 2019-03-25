@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(
   require("express-session")({
-    secret: "keyboard cat",
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true
   })
