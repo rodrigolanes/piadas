@@ -1,4 +1,4 @@
-import Piada from '../models/PiadaModel'
+import { Piada } from '../models/PiadaModel'
 
 import express = require('express')
 

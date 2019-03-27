@@ -1,15 +1,13 @@
-import { Schema, Document, model } from 'mongoose'
+import { Schema, Document, model, Model } from 'mongoose'
+import { PiadaInterface } from '../interfaces/Piada'
 
-interface PiadaInterface extends Document {
-  pergunta: string,
-  resposta: string,
-  votes?: number
+export interface PiadaModel extends PiadaInterface, Document {
 }
 
 const PiadaSchema = new Schema({
-  pergunta: String,
-  resposta: String,
+  pergunta: { type: String, required: true },
+  resposta: { type: String, required: true },
   votes: { type: Number, default: 0 }
 }, { timestamps: true })
 
-export default model<PiadaInterface>('Piada', PiadaSchema)
+export const Piada: Model<PiadaModel> = model<PiadaModel>('Piada', PiadaSchema)

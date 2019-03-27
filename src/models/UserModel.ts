@@ -1,4 +1,4 @@
-import mongoose = require("mongoose");
+import mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -26,8 +26,7 @@ const UserSchema = new mongoose.Schema({
       token: String
     },
     select: false
-  },
-  created_at: { type: Date, default: Date.now }
-});
+  }
+}, { timestamps: true })
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model('User', UserSchema)
