@@ -1,8 +1,9 @@
-import cors from 'cors'
-import express from 'express'
-import morgan from 'morgan'
-import passport from 'passport'
 import connectDB from './db/db'
+import routes from './routes'
+import cors = require('cors')
+import morgan = require('morgan')
+import passport = require('passport')
+import express = require('express')
 
 require('dotenv-safe').load()
 
@@ -33,8 +34,6 @@ var corsOption = {
 
 app.use(cors(corsOption))
 
-app.use('/api/auth', require('./controllers/AuthController'))
-
-app.use('/api/piadas', require('./controllers/PiadaController'))
+app.use(routes)
 
 export default app

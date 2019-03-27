@@ -1,8 +1,8 @@
-import express from 'express'
-import passport from 'passport'
 import { Strategy as TwitterStrategy } from 'passport-twitter'
 
 import config from '../auth/config'
+import express = require('express')
+import passport = require('passport')
 
 require('dotenv-safe').load()
 
