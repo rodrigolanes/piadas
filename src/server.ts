@@ -1,14 +1,14 @@
-import app from "./app";
+import app from './app'
 
-const server_port = process.env.PORT || 3000;
+const serverPort = process.env.PORT || 3000
 
-const server = app.listen(server_port, () => {
+const server = app.listen(serverPort, () => {
   console.log(
-    "  App is running at http://localhost:%d in %s mode",
-    server_port,
-    app.get("env")
-  );
-  console.log("  Press CTRL-C to stop\n");
-});
+    '  App is running at http://localhost:%d in %s mode',
+    serverPort,
+    app.get('env')
+  )
+  console.log('  Press CTRL-C to stop\n')
+})
 
-export default server;
+export default server

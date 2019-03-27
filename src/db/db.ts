@@ -1,17 +1,18 @@
-require('dotenv-safe').load();
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose'
 
-const username = process.env.MONGO_USERNAME;
-const password = process.env.MONGO_PASSWORD;
-const host = process.env.MONGO_HOST;
-const port = process.env.MONGO_PORT;
-const database = process.env.MONGO_DATABASE;
-const auth = username ? `${username}:${password}@` : "";
+require('dotenv-safe').load()
 
-const uri = `mongodb://${auth}${host}:${port}/${database}`;
+const username = process.env.MONGO_USERNAME
+const password = process.env.MONGO_PASSWORD
+const host = process.env.MONGO_HOST
+const port = process.env.MONGO_PORT
+const database = process.env.MONGO_DATABASE
+const auth = username ? `${username}:${password}@` : ''
 
-function connectDB() {
-  mongoose.connect(uri, { useNewUrlParser: true });
+const uri = `mongodb://${auth}${host}:${port}/${database}`
+
+function connectDB (): void {
+  mongoose.connect(uri, { useNewUrlParser: true })
 }
 
-exports.connectDB = connectDB;
+export default connectDB

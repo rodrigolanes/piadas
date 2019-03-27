@@ -1,10 +1,15 @@
-import mongoose = require("mongoose");
+import { Schema, Document, model } from 'mongoose'
 
-const PiadaSchema = new mongoose.Schema({
+interface PiadaInterface extends Document {
+  pergunta: string,
+  resposta: string,
+  votes?: number
+}
+
+const PiadaSchema = new Schema({
   pergunta: String,
   resposta: String,
-  votes: { type: Number, default: 0 },
-  created_at: { type: Date, default: Date.now }
-});
+  votes: { type: Number, default: 0 }
+}, { timestamps: true })
 
-module.exports = mongoose.model("Piada", PiadaSchema);
+export default model<PiadaInterface>('Piada', PiadaSchema)

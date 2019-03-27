@@ -1,49 +1,53 @@
-require("dotenv-safe").load();
-const passport = require("passport");
-const { Strategy: TwitterStrategy } = require("passport-twitter");
-//const { OAuth2Strategy: GoogleStrategy } = require("passport-google-oauth");
-//const { Strategy: FacebookStrategy } = require("passport-facebook");
-//const { Strategy: GithubStrategy } = require("passport-github");
-var { TWITTER_CONFIG } = require("../auth/config");
-var express = require("express");
-var router = express.Router();
+import * as express from 'express'
+import * as passport from 'passport'
+import { Strategy as TwitterStrategy } from 'passport-twitter'
 
-passport.serializeUser((user, cb) => cb(null, user));
-passport.deserializeUser((obj, cb) => cb(null, obj));
+import config from '../auth/config'
 
-const callback = (accessToken, refreshToken, profile, cb) => cb(null, profile);
+require('dotenv-safe').load()
 
-passport.use(new TwitterStrategy(TWITTER_CONFIG, callback));
+// const { OAuth2Strategy: GoogleStrategy } = require("passport-google-oauth");
+// const { Strategy: FacebookStrategy } = require("passport-facebook");
+// const { Strategy: GithubStrategy } = require("passport-github");
 
-router.get("/twitter", passport.authenticate("twitter"));
+const router = express.Router()
+
+passport.serializeUser((user, cb) => cb(null, user))
+passport.deserializeUser((obj, cb) => cb(null, obj))
+
+const callback = (accessToken, refreshToken, profile, cb): void => cb(null, profile)
+
+passport.use(new TwitterStrategy(config.TWITTER_CONFIG, callback))
+
+router.get('/twitter', passport.authenticate('twitter'))
 
 router.get(
-  "/twitter/callback",
-  passport.authenticate("twitter", {
-    successRedirect: "/api/piadas",
-    failureRedirect: "/login"
+  '/twitter/callback',
+  passport.authenticate('twitter', {
+    successRedirect: '/api/piadas',
+    failureRedirect: '/login'
   })
-);
+)
 
-module.exports = router;
-//passport.use(new GoogleStrategy(GOOGLE_CONFIG, callback))
-//passport.use(new FacebookStrategy(FACEBOOK_CONFIG, callback))
-//passport.use(new GithubStrategy(GITHUB_CONFIG, callback))
+module.exports = router
+// passport.use(new GoogleStrategy(GOOGLE_CONFIG, callback))
+// passport.use(new FacebookStrategy(FACEBOOK_CONFIG, callback))
+// passport.use(new GithubStrategy(GITHUB_CONFIG, callback))
 
-//module.exports = () => {
+// module.exports = () => {
 
 // Allowing passport to serialize and deserialize users into sessions
-//passport.serializeUser((user, cb) => cb(null, user))
-//passport.deserializeUser((obj, cb) => cb(null, obj))
+// passport.serializeUser((user, cb) => cb(null, user))
+// passport.deserializeUser((obj, cb) => cb(null, obj))
 
 // The function that is called when an OAuth provider sends back user
 // information.  Normally, you would save the user to the database here
 // in a callback that was customized for each provider.
-//const callback = (accessToken, refreshToken, profile, cb) => cb(null, profile)
+// const callback = (accessToken, refreshToken, profile, cb) => cb(null, profile)
 
 // Adding each OAuth provider's strategy to passport
-//passport.use(new TwitterStrategy(TWITTER_CONFIG, callback))
-//passport.use(new GoogleStrategy(GOOGLE_CONFIG, callback))
-//passport.use(new FacebookStrategy(FACEBOOK_CONFIG, callback))
-//passport.use(new GithubStrategy(GITHUB_CONFIG, callback))
-//}
+// passport.use(new TwitterStrategy(TWITTER_CONFIG, callback))
+// passport.use(new GoogleStrategy(GOOGLE_CONFIG, callback))
+// passport.use(new FacebookStrategy(FACEBOOK_CONFIG, callback))
+// passport.use(new GithubStrategy(GITHUB_CONFIG, callback))
+// }
