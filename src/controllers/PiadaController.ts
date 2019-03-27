@@ -1,4 +1,4 @@
-import * as express from 'express'
+import express from 'express'
 import Piada from '../models/PiadaModel'
 
 require('dotenv-safe').load()
