@@ -1,4 +1,4 @@
-import express from 'express'
+import * as express from 'express'
 import passport from 'passport'
 import { Strategy as TwitterStrategy } from 'passport-twitter'
 

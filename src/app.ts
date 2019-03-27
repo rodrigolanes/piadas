@@ -1,7 +1,7 @@
-import cors from 'cors'
-import express from 'express'
-import morgan from 'morgan'
-import passport from 'passport'
+import * as cors from 'cors'
+import * as express from 'express'
+import * as morgan from 'morgan'
+import * as passport from 'passport'
 import connectDB from './db/db'
 
 require('dotenv-safe').load()
