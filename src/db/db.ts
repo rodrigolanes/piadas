@@ -1,18 +1,15 @@
-import * as mongoose from 'mongoose'
+import mongoose = require('mongoose')
 
 require('dotenv-safe').load()
 
-const username = process.env.MONGO_USERNAME
-const password = process.env.MONGO_PASSWORD
-const host = process.env.MONGO_HOST
-const port = process.env.MONGO_PORT
-const database = process.env.MONGO_DATABASE
-const auth = username ? `${username}:${password}@` : ''
-
-const uri = `mongodb://${auth}${host}:${port}/${database}`
+const uri = process.env.MONGO_URL
 
 function connectDB (): void {
-  mongoose.connect(uri, { useNewUrlParser: true })
+  if (uri) {
+    mongoose.connect(uri, { useNewUrlParser: true })
+  } else {
+    throw new Error('String de conexão com o MongoDB não definida.')
+  }
 }
 
 export default connectDB
