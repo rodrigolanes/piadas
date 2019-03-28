@@ -28,7 +28,7 @@ passport.use(new TwitterStrategy(config.TWITTER_CONFIG, function (token, tokenSe
 
 var createToken = function (auth): string {
   const secret = process.env.SECRET
-  if (!secret) throw new Error('Secret não definido.')
+  if (!secret) throw new Error('Erro ao criar token.')
 
   return jwt.sign({
     id: auth.id
@@ -49,7 +49,7 @@ var sendToken = function (req, res): Response {
 }
 
 var authenticate = expressJwt({
-  secret: 'my-secret',
+  secret: process.env.SECRET || '',
   requestProperty: 'auth',
   getToken: function (req): string | string[] | undefined | null {
     if (req.headers['x-auth-token']) {
@@ -59,7 +59,20 @@ var authenticate = expressJwt({
   }
 })
 
-router.get('/twitter', passport.authenticate('twitter'), generateToken, sendToken)
+const salvaIdUsuarioNoRequest = (req, res, next) => {
+  if (!req.user) {
+    return res.send(401, 'User Not Authenticated')
+  }
+
+  // prepare token for API
+  req.auth = {
+    id: req.user.id
+  }
+
+  next()
+}
+
+router.get('/twitter', passport.authenticate('twitter'), salvaIdUsuarioNoRequest, generateToken, sendToken)
 
 router.get(
   '/twitter/callback',

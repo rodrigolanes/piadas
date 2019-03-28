@@ -5,7 +5,7 @@ export interface UserModel extends UserInterface, Document {
 }
 
 interface UserModelInterface extends Model<UserModel> {
-  upsertTwitterUser(token: string, tokenSecret: string, profile: any, callback?: (err: any, count: number) => void): void
+  upsertTwitterUser(token: string, tokenSecret: string, profile: { id: string }, callback?: (err: Error, result: number) => void): void
 }
 
 const UserSchema = new Schema({
