@@ -21,7 +21,7 @@ passport.deserializeUser((obj, cb) => cb(null, obj))
 // const callback = (accessToken, refreshToken, profile, cb): void => cb(null, profile)
 
 passport.use(new TwitterStrategy(config.TWITTER_CONFIG, function (token, tokenSecret, profile, done) {
-  User.schema.methods.upsertTwitterUser(token, tokenSecret, profile, function (err, user) {
+  User.schema.statics.upsertTwitterUser(token, tokenSecret, profile, function (err, user) {
     return done(err, user)
   })
 }))
