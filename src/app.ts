@@ -11,7 +11,14 @@ import connectMongo = require('connect-mongo')
 require('dotenv-safe').load()
 
 const app = express()
+
 const MongoStore = connectMongo(session)
+
+if (process.env.SECRET) {
+  app.set('SECRET', process.env.SECRET)
+} else {
+  throw new Error('Erro ao carregar váriavel de ambiente!')
+}
 
 connectDB()
 
@@ -19,7 +26,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 app.use(session({
-  secret: process.env.SECRET,
+  secret: app.get('SECRET'),
   resave: true,
   saveUninitialized: true,
   cookie: { maxAge: 19 * 60000 }, // store for 19 minutes

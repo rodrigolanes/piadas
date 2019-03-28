@@ -2,10 +2,12 @@ import { Strategy as TwitterStrategy } from 'passport-twitter'
 import { User } from '../models/UserModel'
 
 import config from '../auth/config'
+
 import express = require('express')
 import passport = require('passport')
 import jwt = require('jsonwebtoken')
 import expressJwt = require('express-jwt');
+import TwitterTokenStrategy = require('passport-twitter-token')
 
 require('dotenv-safe').load()
 
@@ -14,6 +16,13 @@ require('dotenv-safe').load()
 // const { Strategy: GithubStrategy } = require("passport-github");
 
 const router = express.Router()
+
+let secret: string
+if (process.env.SECRET) {
+  secret = process.env.SECRET
+} else {
+  throw new Error('Erro ao carregar váriavel de ambiente!')
+}
 
 passport.serializeUser((user, cb) => cb(null, user))
 passport.deserializeUser((obj, cb) => cb(null, obj))
@@ -26,20 +35,28 @@ passport.use(new TwitterStrategy(config.TWITTER_CONFIG, function (token, tokenSe
   })
 }))
 
+passport.use(new TwitterTokenStrategy(config.TWITTER_CONFIG, function (token, tokenSecret, profile, done) {
+  User.upsertTwitterUser(token, tokenSecret, profile, function (err, user) {
+    return done(err, user)
+  })
+}))
+
 var createToken = function (auth): string {
-  const secret = process.env.SECRET
-  if (!secret) throw new Error('Erro ao criar token.')
+  console.log('auth', auth)
 
   return jwt.sign({
     id: auth.id
   }, secret,
   {
-    expiresIn: 60 * 120
+    expiresIn: 1440 // 24 horas
   })
 }
 
 var generateToken = function (req, res, next): Response {
   req.token = createToken(req.auth)
+
+  console.log('token', req.token)
+
   return next()
 }
 
@@ -49,7 +66,7 @@ var sendToken = function (req, res): Response {
 }
 
 var authenticate = expressJwt({
-  secret: process.env.SECRET || '',
+  secret: secret,
   requestProperty: 'auth',
   getToken: function (req): string | string[] | undefined | null {
     if (req.headers['x-auth-token']) {
@@ -59,7 +76,7 @@ var authenticate = expressJwt({
   }
 })
 
-const salvaIdUsuarioNoRequest = (req, res, next) => {
+const salvaIdUsuarioNoRequest = (req, res, next): void => {
   if (!req.user) {
     return res.send(401, 'User Not Authenticated')
   }
@@ -72,7 +89,11 @@ const salvaIdUsuarioNoRequest = (req, res, next) => {
   next()
 }
 
-router.get('/twitter', passport.authenticate('twitter'), salvaIdUsuarioNoRequest, generateToken, sendToken)
+router.get('/twitter', passport.authenticate('twitter'))
+
+router.get('/twitter/token', passport.authenticate('twitter-token'), (req, res) => {
+  res.send(req['user'] ? 200 : 401)
+})
 
 router.get(
   '/twitter/callback',
