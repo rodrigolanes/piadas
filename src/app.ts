@@ -4,22 +4,28 @@ import cors = require('cors')
 import morgan = require('morgan')
 import passport = require('passport')
 import express = require('express')
+import session = require('express-session')
+import mongoose = require('mongoose')
+import connectMongo = require('connect-mongo')
 
 require('dotenv-safe').load()
 
 const app = express()
+const MongoStore = connectMongo(session)
 
 connectDB()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
-app.use(
-  require('express-session')({
-    secret: process.env.SECRET,
-    resave: true,
-    saveUninitialized: true
-  })
+app.use(session({
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: true,
+  cookie: { maxAge: 19 * 60000 }, // store for 19 minutes
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  }) })
 )
 
 app.use(passport.initialize())
