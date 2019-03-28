@@ -35,7 +35,7 @@ const UserSchema = new Schema({
   }
 }, { timestamps: true })
 
-UserSchema.statics.upsertTwitterUser = function (token, tokenSecret, profile, cb) {
+UserSchema.methods.upsertTwitterUser = function (token, tokenSecret, profile, cb) {
   console.log(profile)
   var That = this
   return this.findOne({
