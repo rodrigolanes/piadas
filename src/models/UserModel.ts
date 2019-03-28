@@ -4,6 +4,10 @@ import { Schema, Document, model, Model } from 'mongoose'
 export interface UserModel extends UserInterface, Document {
 }
 
+interface UserModelInterface extends Model<UserModel> {
+  upsertTwitterUser(token: string, tokenSecret: string, profile: any, callback?: (err: any, count: number) => void): void
+}
+
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -36,7 +40,7 @@ const UserSchema = new Schema({
 
 UserSchema.statics.upsertTwitterUser = function (token, tokenSecret, profile, cb) {
   var That = this
-  return this.db.model('User').findOne({
+  return this.findOne({
     'twitterProvider.id': profile.id
   }, function (err, user) {
     // no user was found, lets create a new one
@@ -62,4 +66,4 @@ UserSchema.statics.upsertTwitterUser = function (token, tokenSecret, profile, cb
   })
 }
 
-export const User: Model<UserModel> = model<UserModel>('User', UserSchema)
+export const User: UserModelInterface = model<UserModel, UserModelInterface>('User', UserSchema)

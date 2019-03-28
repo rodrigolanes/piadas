@@ -6,7 +6,6 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
-    "postinstall": "yarn build",
     "start": "node ./dist/server.js",
     "dev": "nodemon src/server.ts"
   },
