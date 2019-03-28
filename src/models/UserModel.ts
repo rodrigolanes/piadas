@@ -2,7 +2,7 @@ import { UserInterface } from '../interfaces/User'
 import { Schema, Document, model, Model } from 'mongoose'
 
 export interface UserModel extends UserInterface, Document {
-  upsertTwitterUser(token: string, tokenSecret: string, profile: any, callback?: (err: any, count: number) => void)
+  upsertTwitterUser(token: string, tokenSecret: string, profile: any, callback?: (err: any, result: any) => void): void
 }
 
 const UserSchema = new Schema({
