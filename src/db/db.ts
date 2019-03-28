@@ -6,7 +6,8 @@ const uri = process.env.MONGO_URL
 
 function connectDB (): void {
   if (uri) {
-    mongoose.connect(uri, { useNewUrlParser: true })
+    mongoose.connect(uri, { useCreateIndex: true,
+      useNewUrlParser: true })
   } else {
     throw new Error('String de conexão com o MongoDB não definida.')
   }
