@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Um local para se guardar as melhores piadas do Brasil",
   "main": "index.js",
+  "engines": {
+    "node": "10.15.1"
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
