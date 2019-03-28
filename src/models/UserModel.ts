@@ -2,7 +2,6 @@ import { UserInterface } from '../interfaces/User'
 import { Schema, Document, model, Model } from 'mongoose'
 
 export interface UserModel extends UserInterface, Document {
-  upsertTwitterUser(token: string, tokenSecret: string, profile: any, callback?: (err: any, result: any) => void): void
 }
 
 const UserSchema = new Schema({
@@ -37,7 +36,7 @@ const UserSchema = new Schema({
 
 UserSchema.statics.upsertTwitterUser = function (token, tokenSecret, profile, cb) {
   var That = this
-  return this.findOne({
+  return this.db.model('User').findOne({
     'twitterProvider.id': profile.id
   }, function (err, user) {
     // no user was found, lets create a new one
