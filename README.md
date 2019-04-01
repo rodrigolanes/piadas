@@ -12,3 +12,4 @@ Um local para se guardar as melhores piadas do Brasil
 - https://codeburst.io/react-authentication-with-twitter-google-facebook-and-github-862d59583105
 - https://dev.to/medaymentn/securing-your-node-js-api-with-json-web-token-5o5
 - https://medium.com/@robince885/how-to-do-twitter-authentication-with-react-and-restful-api-e525f30c62bb
+- https://medium.com/@alexanderleon/implement-social-authentication-with-react-restful-api-9b44f4714fa

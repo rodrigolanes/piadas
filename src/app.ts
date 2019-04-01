@@ -4,15 +4,10 @@ import cors = require('cors')
 import morgan = require('morgan')
 import passport = require('passport')
 import express = require('express')
-import session = require('express-session')
-import mongoose = require('mongoose')
-import connectMongo = require('connect-mongo')
 
 require('dotenv-safe').load()
 
 const app = express()
-
-const MongoStore = connectMongo(session)
 
 if (process.env.SECRET) {
   app.set('SECRET', process.env.SECRET)
@@ -25,18 +20,18 @@ connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
-app.use(session({
-  secret: app.get('SECRET'),
-  resave: true,
-  saveUninitialized: true,
-  cookie: { maxAge: 19 * 60000 }, // store for 19 minutes
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection
-  }) })
-)
+// app.use(session({
+//   secret: app.get('SECRET'),
+//   resave: true,
+//   saveUninitialized: true,
+//   cookie: { maxAge: 19 * 60000 }, // store for 19 minutes
+//   store: new MongoStore({
+//     mongooseConnection: mongoose.connection
+//   }) })
+// )
 
 app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.session())
 
 var corsOption = {
   origin: true,
@@ -47,6 +42,6 @@ var corsOption = {
 
 app.use(cors(corsOption))
 
-app.use(routes)
+app.use('/api/v1/', routes)
 
 export default app

@@ -38,10 +38,12 @@ const UserSchema = new Schema({
   }
 }, { timestamps: true })
 
+UserSchema.set('toJSON', { getters: true, virtuals: true })
+
 UserSchema.statics.upsertTwitterUser = function (token, tokenSecret, profile, cb) {
   var That = this
   return this.findOne({
-    'twitterProvider.id': profile.id
+    'email': profile.emails[0].value
   }, function (err, user) {
     // no user was found, lets create a new one
     if (!user) {

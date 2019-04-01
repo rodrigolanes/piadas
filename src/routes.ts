@@ -1,12 +1,14 @@
 import { Router } from 'express'
 
-const routes = Router()
+const router = Router()
 
-routes.route('/').get(function (req, res) {
+router.route('/').get(function (req, res) {
   res.status(200)
   res.send('<h1>Funcionou!</h1>')
 })
-routes.use('/api/auth', require('./controllers/AuthController'))
-routes.use('/api/piadas', require('./controllers/PiadaController'))
 
-export default routes
+router.use('/auth', require('./controllers/AuthController'))
+
+router.use('/piadas', require('./controllers/PiadaController'))
+
+export default router
