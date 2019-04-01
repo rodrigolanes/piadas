@@ -42,6 +42,8 @@ var corsOption = {
 
 app.use(cors(corsOption))
 
+app.use('/', (req, res) => res.status(200).send("<h1>OK!</h1>"))
+
 app.use('/api/v1/', routes)
 
 export default app
