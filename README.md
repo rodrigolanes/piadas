@@ -4,6 +4,10 @@ Um local para se guardar as melhores piadas do Brasil
 
 ## Links Úteis
 
+### Config Centralizado
+
+- https://medium.com/@brianschardt/build-node-mongo-rest-api-2018-jwt-eff0e4f41007
+
 ### Restful API com Passport
 
 - https://www.djamware.com/post/58eba06380aca72673af8500/node-express-mongoose-and-passportjs-rest-api-authentication
