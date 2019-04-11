@@ -1,5 +1,5 @@
 import { User } from '../models/UserModel'
-import config from './config'
+import config from '../config/config'
 import passport = require('passport')
 import TwitterTokenStrategy = require('passport-twitter-token')
 

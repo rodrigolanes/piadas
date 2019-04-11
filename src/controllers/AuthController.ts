@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import config from '../auth/config'
+import config from '../config/config'
 import { generateToken, sendToken } from '../utils/tokens.utils'
 import express = require('express')
 import request = require('request')
 import passport = require('passport')
 
 require('../auth/passport')()
-
-require('dotenv-safe').load()
 
 const router = express.Router()
 

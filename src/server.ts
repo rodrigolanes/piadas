@@ -1,6 +1,7 @@
 import app from './app'
+import config from './config/config'
 
-const serverPort = process.env.PORT || 4000
+const serverPort = config.serverPort
 
 const server = app.listen(serverPort, () => {
   console.log(

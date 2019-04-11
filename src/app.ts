@@ -1,16 +1,15 @@
 import connectDB from './db/db'
 import routes from './routes'
+import config from './config/config'
 import cors = require('cors')
 import morgan = require('morgan')
 import passport = require('passport')
 import express = require('express')
 
-require('dotenv-safe').load()
-
 const app = express()
 
-if (process.env.SECRET) {
-  app.set('SECRET', process.env.SECRET)
+if (config.secret) {
+  app.set('SECRET', config.secret)
 } else {
   throw new Error('Erro ao carregar váriavel de ambiente!')
 }

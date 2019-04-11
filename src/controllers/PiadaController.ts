@@ -1,14 +1,13 @@
 import { Piada } from '../models/PiadaModel'
+import config from '../config/config'
 
 import express = require('express')
-
-require('dotenv-safe').load()
 
 const router = express.Router()
 
 router.get('/', function (req, res, next) {
   const page = +req.query.page || 1
-  const limit: number = +req.query.limit || +(process.env.PAGE_LIMIT || 20)
+  const limit: number = +req.query.limit || +config.pageLimit
 
   const query = {}
 
