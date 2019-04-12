@@ -68,4 +68,6 @@ UserSchema.statics.upsertTwitterUser = function (token, tokenSecret, profile, cb
   })
 }
 
-export const User: UserModelInterface = model<UserModel, UserModelInterface>('User', UserSchema)
+const User: UserModelInterface = model<UserModel, UserModelInterface>('User', UserSchema)
+
+export default User

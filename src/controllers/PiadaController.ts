@@ -1,9 +1,12 @@
-import { Piada } from '../models/PiadaModel'
+import Piada from '../models/PiadaModel'
 import config from '../config/config'
+import auth from '../auth/auth'
 
 import express = require('express')
 
 const router = express.Router()
+
+router.use(auth)
 
 router.get('/', function (req, res, next) {
   const page = +req.query.page || 1

@@ -10,4 +10,6 @@ const PiadaSchema = new Schema({
   votes: { type: Number, default: 0 }
 }, { timestamps: true })
 
-export const Piada: Model<PiadaModel> = model<PiadaModel>('Piada', PiadaSchema)
+const Piada: Model<PiadaModel> = model<PiadaModel>('Piada', PiadaSchema)
+
+export default Piada
