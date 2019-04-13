@@ -1,6 +1,8 @@
 import User from '../models/UserModel'
 import config from '../config/config'
-import { ErrorInterface } from '../interfaces/ErrorInterface'
+import { ErrorInterface } from '../interfaces/Error'
+import { CredentialInterface } from '../interfaces/Credential'
+import { getGoogleUser } from './googleAuth'
 import _ = require('lodash')
 import jwt = require('jsonwebtoken')
 import bcrypt = require('bcrypt')
@@ -14,31 +16,67 @@ const sendErrorsFromDB = (res, dbErrors): Response => {
   return res.status(400).json({ errors })
 }
 
-export const login = (req, res, next): Response | void => {
+const generateToken = (email: string): CredentialInterface => {
+  const token = jwt.sign({ email }, config.authSecret, { expiresIn: '1 day' })
+  return { email, token }
+}
+
+const checkEmailIsAllowed = (email: string) : boolean => {
+  return !config.emailsAllowed.includes(email)
+}
+
+export const login = (req, res): Response | void => {
   const email = req.body.email || ''
   const password = req.body.password || ''
+
+  if (checkEmailIsAllowed(email)) res.status(400).send({ errors: 'Email não autorizado!' })
 
   User.findOne({ email }, (err, user) => {
     if (err) {
       return sendErrorsFromDB(res, err)
     } else if (user && bcrypt.compareSync(password, user.password)) {
-      const { email } = user
-      const token = jwt.sign({ email }, config.authSecret, { expiresIn: '1 day' })
-      return res.json({ email, token })
+      return res.json(generateToken(user.email))
     } else {
-      return res.status(400).send({ user, errors: ['Usuário/Senha inválidos'] })
+      return res.status(400).send({ errors: ['Usuário/Senha inválidos'] })
     }
   })
 }
 
+export const googleLogin = (req, res): Response | void => {
+  try {
+    const token = req.body.token
+
+    if (!token) {
+      return res.status(403).send({ errors: ['No token provided.'] })
+    }
+
+    getGoogleUser(token)
+      .then(response => {
+        const { email } = response
+        if (checkEmailIsAllowed(email)) res.status(400).send({ errors: 'Email não autorizado!' })
+        return generateToken(email)
+      })
+      .then(credentials =>
+        res.json(credentials)
+      )
+      .catch(e => {
+        throw new Error(e)
+      })
+  } catch (error) {
+    res.sendStatus(500).end(JSON.stringify({ errors: 'Internal server error' }))
+    return console.error(error)
+  }
+}
+
 export const validateToken = (req, res): Response | void => {
   const token = req.body.token || ''
-  jwt.verify(token, config.authSecret, function (err, decoded) {
+  // jwt.verify(token, config.authSecret, function (err, decoded) {
+  jwt.verify(token, config.authSecret, function (err) {
     return res.status(200).send({ valid: !err })
   })
 }
 
-export const signup = (req, res, next): Response | void => {
+export const signup = (req, res): Response | void => {
   const email = req.body.email || ''
   const password = req.body.password || ''
   const confirmPassword = req.body.confirm_password || ''
@@ -69,7 +107,7 @@ export const signup = (req, res, next): Response | void => {
         if (err) {
           return sendErrorsFromDB(res, err)
         } else {
-          login(req, res, next)
+          login(req, res)
         }
       })
     }

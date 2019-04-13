@@ -5,12 +5,10 @@ const CONFIG = {
   serverPort: process.env.PORT || 4000,
   pageLimit: process.env.PAGE_LIMIT || 20,
   authSecret: process.env.AUTH_SECRET || '',
-  twitterAuth: {
-    consumerKey: process.env.TWITTER_CONSUMER_KEY,
-    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: process.env.TWITTER_CALLBACK_URL,
-    includeEmail: true
-  }
+  googleAuth: {
+    clientId: process.env.GOOGLE_CLIENT_ID || ''
+  },
+  emailsAllowed: (process.env.EMAILS_ALLOWED || '').split(',')
 }
 
 export default CONFIG
