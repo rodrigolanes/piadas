@@ -6,8 +6,6 @@ import express = require('express')
 
 const router = express.Router()
 
-router.use(auth)
-
 router.get('/', function (req, res, next) {
   const page = +req.query.page || 1
   const limit: number = +req.query.limit || +config.pageLimit
@@ -43,7 +41,7 @@ router.get('/:id', function (req, res, next) {
   })
 })
 
-router.post('/', function (req, res, next) {
+router.post('/', auth, function (req, res, next) {
   const novaPiada = new Piada(req.body)
 
   novaPiada.save(function (err, result) {
@@ -53,7 +51,7 @@ router.post('/', function (req, res, next) {
   })
 })
 
-router.put('/:id', function (req, res, next) {
+router.put('/:id', auth, function (req, res, next) {
   const _id = req.params.id
 
   const { pergunta, resposta } = new Piada(req.body)
@@ -65,7 +63,7 @@ router.put('/:id', function (req, res, next) {
   })
 })
 
-router.delete('/:id', function (req, res, next) {
+router.delete('/:id', auth, function (req, res, next) {
   const _id = req.params.id
 
   Piada.findOneAndRemove({ _id }, (err, result) => {
