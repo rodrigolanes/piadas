@@ -7,5 +7,6 @@ router.post('/login', AuthService.login)
 // router.post('/signup', AuthService.signup)
 router.post('/validateToken', AuthService.validateToken)
 router.post('/googleLogin', AuthService.googleLogin)
+router.post('/facebookLogin', AuthService.facebookLogin)
 
 module.exports = router

@@ -3,6 +3,7 @@ import config from '../config/config'
 import { ErrorInterface } from '../interfaces/Error'
 import { CredentialInterface } from '../interfaces/Credential'
 import { getGoogleUser } from './googleAuth'
+import { getFacebookUser } from './facebookAuth'
 import _ = require('lodash')
 import jwt = require('jsonwebtoken')
 import bcrypt = require('bcrypt')
@@ -51,8 +52,34 @@ export const googleLogin = (req, res): Response | void => {
     }
 
     getGoogleUser(token)
-      .then(response => {
-        const { email } = response
+      .then(user => {
+        const { email } = user
+        if (checkEmailIsAllowed(email)) res.status(400).send({ errors: 'Email não autorizado!' })
+        return generateToken(email)
+      })
+      .then(credentials =>
+        res.json(credentials)
+      )
+      .catch(e => {
+        throw new Error(e)
+      })
+  } catch (error) {
+    res.sendStatus(500).end(JSON.stringify({ errors: 'Internal server error' }))
+    return console.error(error)
+  }
+}
+
+export const facebookLogin = (req, res): Response | void => {
+  try {
+    const token = req.body.token
+
+    if (!token) {
+      return res.status(403).send({ errors: ['No token provided.'] })
+    }
+
+    getFacebookUser(token)
+      .then(user => {
+        const { email } = user
         if (checkEmailIsAllowed(email)) res.status(400).send({ errors: 'Email não autorizado!' })
         return generateToken(email)
       })
