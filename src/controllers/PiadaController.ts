@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
   const page = +req.query.page || 1
   const limit: number = +req.query.limit || +config.pageLimit
 
-  const { pergunta, resposta } = req.body
+  const { pergunta, resposta } = req.query
 
   let query = {}
 
