@@ -10,7 +10,13 @@ router.get('/', function (req, res, next) {
   const page = +req.query.page || 1
   const limit: number = +req.query.limit || +config.pageLimit
 
-  const query = {}
+  const { pergunta, resposta } = req.body
+
+  let query = {}
+
+  if (pergunta || resposta) {
+    query = { $and: [ { 'pergunta': new RegExp(pergunta, 'i') }, { 'resposta': new RegExp(resposta, 'i') } ] }
+  }
 
   Piada.find(query)
     .skip(limit * (page - 1))
