@@ -15,6 +15,8 @@ app.use(allowCors)
 
 app.get('/', (req, res) => res.status(200).send('<h1>OK!</h1>'))
 
+app.use(express.static('./src/assets'))
+
 app.use('/api/v1/', routes)
 
 export default app
