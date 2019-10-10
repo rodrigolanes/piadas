@@ -1,12 +1,21 @@
-import connectDB from './db/db'
 import routes from './routes'
+import config from './config/config'
 import morgan = require('morgan')
 import express = require('express')
 import allowCors = require('./config/cors')
+import mongoose = require('mongoose')
 
 const app = express()
 
-connectDB()
+const uri = config.mongodb
+
+if (uri) {
+  mongoose.connect(uri, { useCreateIndex: true,
+    useNewUrlParser: true })
+  console.log('MongoDB connectado!')
+} else {
+  throw new Error('String de conexão com o MongoDB não definida.')
+}
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
