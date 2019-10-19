@@ -7,7 +7,8 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "start": "node ./dist/server.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "test": "echo \"Aplicacao ainda sem testes\""
   },
   "dependencies": {
     "bcrypt": "^3.0.5",
