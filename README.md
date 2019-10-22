@@ -1,5 +1,9 @@
 # Piadas
 
+<p align="left">
+  <a href="https://github.com/rodrigolanes/oqueeoquee-backend"><img alt="GitHub Actions status" src="https://github.com/rodrigolanes/oqueeoquee-backend/workflows/Node%20CI/badge.svg"></a>
+</p>
+
 Um local para se guardar as melhores piadas do Brasil
 
 ## Links Úteis
