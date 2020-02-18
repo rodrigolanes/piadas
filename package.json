@@ -11,7 +11,7 @@
     "test": "echo \"Aplicacao ainda sem testes\""
   },
   "dependencies": {
-    "bcrypt": "^3.0.5",
+    "bcrypt": "^3.0.8",
     "dotenv-safe": "^8.2.0",
     "express": "^4.16.4",
     "google-auth-library": "^5.9.2",
