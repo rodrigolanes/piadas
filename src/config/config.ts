@@ -1,4 +1,4 @@
-require('dotenv-safe').load()
+require('dotenv-safe').config()
 
 const CONFIG = {
   mongodb: process.env.MONGO_URL,
