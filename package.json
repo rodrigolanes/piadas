@@ -26,7 +26,7 @@
     "@types/express-jwt": "^0.0.42",
     "@types/jsonwebtoken": "^8.3.7",
     "@types/lodash": "^4.14.123",
-    "@types/mongoose": "^5.3.23",
+    "@types/mongoose": "^5.7.2",
     "@types/node": "^13.7.5",
     "@typescript-eslint/eslint-plugin": "^1.5.0",
     "@typescript-eslint/parser": "^1.5.0",
