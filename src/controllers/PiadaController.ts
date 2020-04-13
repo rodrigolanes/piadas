@@ -15,7 +15,7 @@ router.get("/", function (req, res, next) {
   let query = {};
 
   if (pergunta || resposta) {
-    query = `{ $and: [ { 'pergunta': ${pergunta} ) }, { 'resposta': ${resposta} } ] }`;
+    query = `{ $and: [ { 'pergunta': /${pergunta}/i ) }, { 'resposta': /${resposta}/i } ] }`;
   }
 
   Piada.find(query)
